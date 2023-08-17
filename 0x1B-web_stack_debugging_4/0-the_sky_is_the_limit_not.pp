@@ -1,4 +1,6 @@
-# puppet manifest for setting limit of nginx
-exec { '/etc/default/nginx':
-  command => '/bin/echo ULIMIT="-n 5000" > /etc/default/nginx && sudo /usr/bin/service nginx restart',
+# fix our stack so that there is not failed requests
+
+exec { 'change nginx limit':
+    command  => 'sudo sed -i "s/15/4096/g" /etc/default/nginx; sudo service nginx restart',
+    provider => shell,
 }
